@@ -20,10 +20,41 @@ const client = new MongoClient(uri, {
     }
 });
 
+app.get('/', (req, res) => {
+    res.send('Server is running')
+})
+
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
+
+        const classCollection = client.db('summer-camp').collection('classes')
+        const userCollection = client.db('summer-camp').collection('users')
+
+        //classes api
+        app.get('/classes', async (req, res) => {
+            const query = { approved: true }
+            const result = await classCollection.find(query).toArray()
+            res.send(result)
+        })
+
+        //user api
+        app.get('/users/instructors', async (req, res) => {
+            const query = { role: 'instructor' }
+            const result = await userCollection.find(query).toArray()
+            res.send(result)
+        })
+
+        app.post('/users', async (req, res) => {
+            const data = req.body
+            const userExist = await userCollection.findOne({ email: data.email })
+            if (userExist) {
+                return res.send({ message: 'user Exsist' })
+            }
+            const result = await userCollection.insertOne(data)
+            res.send(result)
+        })
 
 
         // Send a ping to confirm a successful connection

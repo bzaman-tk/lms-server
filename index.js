@@ -44,6 +44,20 @@ async function run() {
             res.send(result)
         })
 
+        app.patch('/classes/:id', async (req, res) => {
+            const id = req.params.id;
+            const body = req.body;
+            const filter = { _id: new ObjectId(id) }
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    status: body.status
+                },
+            };
+            const result = await classCollection.updateOne(filter, updateDoc, options);
+            res.send(result)
+        })
+
         //user api
         app.get('/users/instructors', async (req, res) => {
             const query = { role: 'instructor' }

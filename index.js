@@ -37,6 +37,15 @@ async function run() {
             const result = await classCollection.find().toArray()
             res.send(result)
         })
+        app.get('/all-classes/:email', async (req, res) => {
+            const email = req.params.email;
+            const filter = { email: email }
+            const user = await userCollection.findOne(filter)
+            const filterClass = { instructor: user?._id.toHexString() }
+            const result = await classCollection.find(filterClass).toArray()
+            console.log(email, user?._id, result);
+            res.send(result)
+        })
 
         app.get('/classes', async (req, res) => {
             const query = { approved: true }

@@ -33,6 +33,11 @@ async function run() {
         const userCollection = client.db('summer-camp').collection('users')
 
         //classes api
+        app.get('/all-classes', async (req, res) => {
+            const result = await classCollection.find().toArray()
+            res.send(result)
+        })
+
         app.get('/classes', async (req, res) => {
             const query = { approved: true }
             const result = await classCollection.find(query).toArray()

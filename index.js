@@ -43,7 +43,7 @@ async function run() {
             const user = await userCollection.findOne(filter)
             const filterClass = { instructor: user?._id.toHexString() }
             const result = await classCollection.find(filterClass).toArray()
-            console.log(email, user?._id, result);
+            // console.log(email, user?._id, result);
             res.send(result)
         })
 

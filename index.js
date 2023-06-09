@@ -58,6 +58,29 @@ async function run() {
             res.send(result)
         })
 
+        app.get('/feedback/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) }
+            const result = classCollection.findOne(filter)
+            if (!result.feedback) {
+                return res.send({ feedback: false })
+            }
+            res.send(result)
+        })
+
+        app.patch('/feedback/:id', async (req, res) => {
+            const id = req.params.id;
+            const body = req.body;
+            const filter = { _id: new ObjectId(id) }
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    feedback: body?.status
+                },
+            };
+            console.log(id, body);
+        })
+
         //user api
         app.get('/users/instructors', async (req, res) => {
             const query = { role: 'instructor' }

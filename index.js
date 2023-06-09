@@ -47,6 +47,12 @@ async function run() {
             res.send(result)
         })
 
+        app.post('/add-class', async (req, res) => {
+            const body = req.body;
+            const result = await classCollection.insertOne(body)
+            res.send(result)
+        })
+
         app.get('/classes', async (req, res) => {
             const query = { approved: true }
             const result = await classCollection.find(query).toArray()

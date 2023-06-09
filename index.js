@@ -83,6 +83,11 @@ async function run() {
         })
 
         //user api
+        app.get('/all-users', async (req, res) => {
+            const result = await userCollection.find().toArray()
+            res.send(result)
+        })
+
         app.get('/users/instructors', async (req, res) => {
             const query = { role: 'instructor' }
             const result = await userCollection.find(query).toArray()

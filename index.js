@@ -61,7 +61,7 @@ async function run() {
         app.get('/feedback/:id', async (req, res) => {
             const id = req.params.id;
             const filter = { _id: new ObjectId(id) }
-            const result = classCollection.findOne(filter)
+            const result = await classCollection.findOne(filter)
             if (!result.feedback) {
                 return res.send({ feedback: false })
             }
@@ -75,10 +75,11 @@ async function run() {
             const options = { upsert: true };
             const updateDoc = {
                 $set: {
-                    feedback: body?.status
+                    feedback: body?.message
                 },
             };
-            console.log(id, body);
+            const result = await classCollection.updateOne(filter, updateDoc, options)
+            res.send(result)
         })
 
         //user api

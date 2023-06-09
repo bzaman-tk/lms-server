@@ -49,6 +49,10 @@ async function run() {
 
         app.post('/add-class', async (req, res) => {
             const body = req.body;
+            const user = await userCollection.findOne({
+                email: body.instructor
+            })
+            body.instructor = user?._id.toHexString()
             const result = await classCollection.insertOne(body)
             res.send(result)
         })

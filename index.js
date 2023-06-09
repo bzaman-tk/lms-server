@@ -88,6 +88,20 @@ async function run() {
             res.send(result)
         })
 
+        app.patch('/all-users/:id', async (req, res) => {
+            const id = req.params.id;
+            const body = req.body;
+            const filter = { _id: new ObjectId(id) }
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    role: body?.role
+                },
+            };
+            const result = await userCollection.updateOne(filter, updateDoc, options)
+            res.send(result)
+        })
+
         app.get('/users/instructors', async (req, res) => {
             const query = { role: 'instructor' }
             const result = await userCollection.find(query).toArray()

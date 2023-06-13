@@ -59,7 +59,7 @@ app.get('/', (req, res) => {
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
-        await client.connect();
+        //await client.connect();
 
         const classCollection = client.db('summer-camp').collection('classes')
         const userCollection = client.db('summer-camp').collection('users')
@@ -377,8 +377,8 @@ async function run() {
         })
 
         // Send a ping to confirm a successful connection
-        await client.db("admin").command({ ping: 1 });
-        console.log("Pinged your deployment. You successfully connected to MongoDB!");
+        //await client.db("admin").command({ ping: 1 });
+        //console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
         // Ensures that the client will close when you finish/error
         //await client.close();
@@ -387,10 +387,10 @@ async function run() {
 run().catch(console.dir);
 
 app.listen(port, () => {
-    console.log(`Server is running on port: ${port}`);
+    //console.log(`Server is running on port: ${port}`);
 })
 
 // handle Error
 process.on("unhandledRejection", (error) => {
-    console.log(error.name, error.message);
+    //console.log(error.name, error.message);
 }); 
